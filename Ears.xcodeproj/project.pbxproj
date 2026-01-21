@@ -1,0 +1,617 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E0000001238A0001 /* EarsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000002238A0001 /* EarsApp.swift */; };
+		E0000003238A0001 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000004238A0001 /* AppState.swift */; };
+		E0000005238A0001 /* CrashRecovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000006238A0001 /* CrashRecovery.swift */; };
+		E0000007238A0001 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000008238A0001 /* AudioPlayer.swift */; };
+		E0000009238A0001 /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000A238A0001 /* AudioSessionManager.swift */; };
+		E000000B238A0001 /* NowPlayingInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000C238A0001 /* NowPlayingInfoManager.swift */; };
+		E000000D238A0001 /* RemoteCommandManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000E238A0001 /* RemoteCommandManager.swift */; };
+		E000000F238A0001 /* SleepTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000010238A0001 /* SleepTimer.swift */; };
+		E0000011238A0001 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000012238A0001 /* APIClient.swift */; };
+		E0000013238A0001 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000014238A0001 /* User.swift */; };
+		E0000015238A0001 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000016238A0001 /* Library.swift */; };
+		E0000017238A0001 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000018238A0001 /* Book.swift */; };
+		E0000019238A0001 /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000001A238A0001 /* Author.swift */; };
+		E000001B238A0001 /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000001C238A0001 /* Series.swift */; };
+		E000001D238A0001 /* PlaybackSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000001E238A0001 /* PlaybackSession.swift */; };
+		E000001F238A0001 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000020238A0001 /* SearchResponse.swift */; };
+		E0000021238A0001 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000022238A0001 /* KeychainManager.swift */; };
+		E0000023238A0001 /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000024238A0001 /* SwiftDataModels.swift */; };
+		E0000025238A0001 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000026238A0001 /* DownloadManager.swift */; };
+		E0000027238A0001 /* CarPlaySceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000028238A0001 /* CarPlaySceneDelegate.swift */; };
+		E0000029238A0001 /* ServerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000002A238A0001 /* ServerSetupView.swift */; };
+		E000002B238A0001 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000002C238A0001 /* LoginView.swift */; };
+		E000002D238A0001 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000002E238A0001 /* LibraryView.swift */; };
+		E000002F238A0001 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000030238A0001 /* LibraryViewModel.swift */; };
+		E0000031238A0001 /* BookGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000032238A0001 /* BookGridItem.swift */; };
+		E0000033238A0001 /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000034238A0001 /* BookDetailView.swift */; };
+		E0000035238A0001 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000036238A0001 /* SearchView.swift */; };
+		E0000037238A0001 /* AuthorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000038238A0001 /* AuthorListView.swift */; };
+		E0000039238A0001 /* NowPlayingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000003A238A0001 /* NowPlayingView.swift */; };
+		E000003B238A0001 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000003C238A0001 /* MiniPlayerView.swift */; };
+		E000003D238A0001 /* ChapterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000003E238A0001 /* ChapterListView.swift */; };
+		E000003F238A0001 /* SleepTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000040238A0001 /* SleepTimerView.swift */; };
+		E0000041238A0001 /* SpeedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000042238A0001 /* SpeedControlView.swift */; };
+		E0000043238A0001 /* DownloadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000044238A0001 /* DownloadsView.swift */; };
+		E0000045238A0001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000046238A0001 /* SettingsView.swift */; };
+		E0000047238A0001 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000048238A0001 /* Theme.swift */; };
+		E0000049238A0001 /* Shimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000004A238A0001 /* Shimmer.swift */; };
+		E000004B238A0001 /* AccessibilityHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000004C238A0001 /* AccessibilityHelpers.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E0000050238A0001 /* Ears.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ears.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0000002238A0001 /* EarsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarsApp.swift; sourceTree = "<group>"; };
+		E0000004238A0001 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		E0000006238A0001 /* CrashRecovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashRecovery.swift; sourceTree = "<group>"; };
+		E0000008238A0001 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		E000000A238A0001 /* AudioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionManager.swift; sourceTree = "<group>"; };
+		E000000C238A0001 /* NowPlayingInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingInfoManager.swift; sourceTree = "<group>"; };
+		E000000E238A0001 /* RemoteCommandManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteCommandManager.swift; sourceTree = "<group>"; };
+		E0000010238A0001 /* SleepTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimer.swift; sourceTree = "<group>"; };
+		E0000012238A0001 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		E0000014238A0001 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E0000016238A0001 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		E0000018238A0001 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		E000001A238A0001 /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
+		E000001C238A0001 /* Series.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
+		E000001E238A0001 /* PlaybackSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackSession.swift; sourceTree = "<group>"; };
+		E0000020238A0001 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
+		E0000022238A0001 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		E0000024238A0001 /* SwiftDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModels.swift; sourceTree = "<group>"; };
+		E0000026238A0001 /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		E0000028238A0001 /* CarPlaySceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlaySceneDelegate.swift; sourceTree = "<group>"; };
+		E000002A238A0001 /* ServerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSetupView.swift; sourceTree = "<group>"; };
+		E000002C238A0001 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		E000002E238A0001 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		E0000030238A0001 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		E0000032238A0001 /* BookGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookGridItem.swift; sourceTree = "<group>"; };
+		E0000034238A0001 /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
+		E0000036238A0001 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		E0000038238A0001 /* AuthorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorListView.swift; sourceTree = "<group>"; };
+		E000003A238A0001 /* NowPlayingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingView.swift; sourceTree = "<group>"; };
+		E000003C238A0001 /* MiniPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
+		E000003E238A0001 /* ChapterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListView.swift; sourceTree = "<group>"; };
+		E0000040238A0001 /* SleepTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerView.swift; sourceTree = "<group>"; };
+		E0000042238A0001 /* SpeedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedControlView.swift; sourceTree = "<group>"; };
+		E0000044238A0001 /* DownloadsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsView.swift; sourceTree = "<group>"; };
+		E0000046238A0001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E0000048238A0001 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		E000004A238A0001 /* Shimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmer.swift; sourceTree = "<group>"; };
+		E000004C238A0001 /* AccessibilityHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelpers.swift; sourceTree = "<group>"; };
+		E0000051238A0001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E0000052238A0001 /* Ears.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Ears.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E0000053238A0001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E0000054238A0001 = {
+			isa = PBXGroup;
+			children = (
+				E0000055238A0001 /* Ears */,
+				E0000056238A0001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E0000056238A0001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E0000050238A0001 /* Ears.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E0000055238A0001 /* Ears */ = {
+			isa = PBXGroup;
+			children = (
+				E0000057238A0001 /* App */,
+				E0000058238A0001 /* Core */,
+				E0000059238A0001 /* Features */,
+				E000005A238A0001 /* DesignSystem */,
+				E000005B238A0001 /* Accessibility */,
+				E0000051238A0001 /* Info.plist */,
+				E0000052238A0001 /* Ears.entitlements */,
+			);
+			path = Ears;
+			sourceTree = "<group>";
+		};
+		E0000057238A0001 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				E0000002238A0001 /* EarsApp.swift */,
+				E0000004238A0001 /* AppState.swift */,
+				E0000006238A0001 /* CrashRecovery.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		E0000058238A0001 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E000005C238A0001 /* Audio */,
+				E000005D238A0001 /* Network */,
+				E000005E238A0001 /* Persistence */,
+				E000005F238A0001 /* CarPlay */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		E000005C238A0001 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				E0000008238A0001 /* AudioPlayer.swift */,
+				E000000A238A0001 /* AudioSessionManager.swift */,
+				E000000C238A0001 /* NowPlayingInfoManager.swift */,
+				E000000E238A0001 /* RemoteCommandManager.swift */,
+				E0000010238A0001 /* SleepTimer.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		E000005D238A0001 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E0000012238A0001 /* APIClient.swift */,
+				E0000060238A0001 /* Models */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		E0000060238A0001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E0000014238A0001 /* User.swift */,
+				E0000016238A0001 /* Library.swift */,
+				E0000018238A0001 /* Book.swift */,
+				E000001A238A0001 /* Author.swift */,
+				E000001C238A0001 /* Series.swift */,
+				E000001E238A0001 /* PlaybackSession.swift */,
+				E0000020238A0001 /* SearchResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E000005E238A0001 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				E0000022238A0001 /* KeychainManager.swift */,
+				E0000024238A0001 /* SwiftDataModels.swift */,
+				E0000026238A0001 /* DownloadManager.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		E000005F238A0001 /* CarPlay */ = {
+			isa = PBXGroup;
+			children = (
+				E0000028238A0001 /* CarPlaySceneDelegate.swift */,
+			);
+			path = CarPlay;
+			sourceTree = "<group>";
+		};
+		E0000059238A0001 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				E0000061238A0001 /* Auth */,
+				E0000062238A0001 /* Library */,
+				E0000063238A0001 /* Player */,
+				E0000064238A0001 /* Downloads */,
+				E0000065238A0001 /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		E0000061238A0001 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				E000002A238A0001 /* ServerSetupView.swift */,
+				E000002C238A0001 /* LoginView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		E0000062238A0001 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				E000002E238A0001 /* LibraryView.swift */,
+				E0000030238A0001 /* LibraryViewModel.swift */,
+				E0000032238A0001 /* BookGridItem.swift */,
+				E0000034238A0001 /* BookDetailView.swift */,
+				E0000036238A0001 /* SearchView.swift */,
+				E0000038238A0001 /* AuthorListView.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		E0000063238A0001 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				E000003A238A0001 /* NowPlayingView.swift */,
+				E000003C238A0001 /* MiniPlayerView.swift */,
+				E000003E238A0001 /* ChapterListView.swift */,
+				E0000040238A0001 /* SleepTimerView.swift */,
+				E0000042238A0001 /* SpeedControlView.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		E0000064238A0001 /* Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				E0000044238A0001 /* DownloadsView.swift */,
+			);
+			path = Downloads;
+			sourceTree = "<group>";
+		};
+		E0000065238A0001 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E0000046238A0001 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		E000005A238A0001 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				E0000048238A0001 /* Theme.swift */,
+				E0000066238A0001 /* Components */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		E0000066238A0001 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E000004A238A0001 /* Shimmer.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E000005B238A0001 /* Accessibility */ = {
+			isa = PBXGroup;
+			children = (
+				E000004C238A0001 /* AccessibilityHelpers.swift */,
+			);
+			path = Accessibility;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E0000067238A0001 /* Ears */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0000068238A0001 /* Build configuration list for PBXNativeTarget "Ears" */;
+			buildPhases = (
+				E0000069238A0001 /* Sources */,
+				E0000053238A0001 /* Frameworks */,
+				E000006A238A0001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Ears;
+			productName = Ears;
+			productReference = E0000050238A0001 /* Ears.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E000006B238A0001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					E0000067238A0001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = E000006C238A0001 /* Build configuration list for PBXProject "Ears" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E0000054238A0001;
+			productRefGroup = E0000056238A0001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E0000067238A0001 /* Ears */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E000006A238A0001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E0000069238A0001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0000001238A0001 /* EarsApp.swift in Sources */,
+				E0000003238A0001 /* AppState.swift in Sources */,
+				E0000005238A0001 /* CrashRecovery.swift in Sources */,
+				E0000007238A0001 /* AudioPlayer.swift in Sources */,
+				E0000009238A0001 /* AudioSessionManager.swift in Sources */,
+				E000000B238A0001 /* NowPlayingInfoManager.swift in Sources */,
+				E000000D238A0001 /* RemoteCommandManager.swift in Sources */,
+				E000000F238A0001 /* SleepTimer.swift in Sources */,
+				E0000011238A0001 /* APIClient.swift in Sources */,
+				E0000013238A0001 /* User.swift in Sources */,
+				E0000015238A0001 /* Library.swift in Sources */,
+				E0000017238A0001 /* Book.swift in Sources */,
+				E0000019238A0001 /* Author.swift in Sources */,
+				E000001B238A0001 /* Series.swift in Sources */,
+				E000001D238A0001 /* PlaybackSession.swift in Sources */,
+				E000001F238A0001 /* SearchResponse.swift in Sources */,
+				E0000021238A0001 /* KeychainManager.swift in Sources */,
+				E0000023238A0001 /* SwiftDataModels.swift in Sources */,
+				E0000025238A0001 /* DownloadManager.swift in Sources */,
+				E0000027238A0001 /* CarPlaySceneDelegate.swift in Sources */,
+				E0000029238A0001 /* ServerSetupView.swift in Sources */,
+				E000002B238A0001 /* LoginView.swift in Sources */,
+				E000002D238A0001 /* LibraryView.swift in Sources */,
+				E000002F238A0001 /* LibraryViewModel.swift in Sources */,
+				E0000031238A0001 /* BookGridItem.swift in Sources */,
+				E0000033238A0001 /* BookDetailView.swift in Sources */,
+				E0000035238A0001 /* SearchView.swift in Sources */,
+				E0000037238A0001 /* AuthorListView.swift in Sources */,
+				E0000039238A0001 /* NowPlayingView.swift in Sources */,
+				E000003B238A0001 /* MiniPlayerView.swift in Sources */,
+				E000003D238A0001 /* ChapterListView.swift in Sources */,
+				E000003F238A0001 /* SleepTimerView.swift in Sources */,
+				E0000041238A0001 /* SpeedControlView.swift in Sources */,
+				E0000043238A0001 /* DownloadsView.swift in Sources */,
+				E0000045238A0001 /* SettingsView.swift in Sources */,
+				E0000047238A0001 /* Theme.swift in Sources */,
+				E0000049238A0001 /* Shimmer.swift in Sources */,
+				E000004B238A0001 /* AccessibilityHelpers.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E000006D238A0001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E000006E238A0001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E000006F238A0001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Ears/Ears.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Ears/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Ears;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ears.audiobookshelf;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E0000070238A0001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Ears/Ears.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Ears/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Ears;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ears.audiobookshelf;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E000006C238A0001 /* Build configuration list for PBXProject "Ears" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E000006D238A0001 /* Debug */,
+				E000006E238A0001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0000068238A0001 /* Build configuration list for PBXNativeTarget "Ears" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E000006F238A0001 /* Debug */,
+				E0000070238A0001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E000006B238A0001 /* Project object */;
+}
