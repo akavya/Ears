@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import Combine
 import Observation
 import MediaPlayer
 
@@ -87,6 +88,9 @@ final class AudioPlayer {
     /// Crash recovery reference (set by app)
     weak var crashRecovery: CrashRecovery?
 
+    /// Current playback session ID
+    private var currentSessionId: String?
+
     // MARK: - Initialization
 
     init() {
@@ -121,22 +125,109 @@ final class AudioPlayer {
     /// Load and play a book from a URL
     @MainActor
     func play(book: Book, startPosition: TimeInterval = 0) async throws {
-        guard let audioURL = book.audioFileURL else {
-            throw AudioPlayerError.invalidURL
-        }
-
         state = .loading
         currentBook = book
 
         // Clean up previous playback
         cleanup()
 
-        // Configure audio session
-        try audioSession.activate()
+        // Start playback session with API
+        let session = try await APIClient.shared.startPlaybackSession(bookId: book.id)
+        currentSessionId = session.id
 
-        // Create player item
+        // Get streaming URL from session
+        guard let trackUrl = session.audioTracks?.first?.contentUrl,
+              let baseURLString = UserDefaults.standard.string(forKey: "serverURL") else {
+            throw AudioPlayerError.invalidURL
+        }
+
+        // Ensure we have a token for authentication
+        guard let token = KeychainManager.shared.getToken() else {
+            print("[AudioPlayer] ERROR: No auth token available")
+            throw AudioPlayerError.invalidURL
+        }
+
+        // Build the full URL
+        let fullURLString: String
+        if trackUrl.hasPrefix("http://") || trackUrl.hasPrefix("https://") {
+            // Absolute URL
+            fullURLString = trackUrl
+        } else {
+            // Relative URL - combine with base
+            let cleanBase = baseURLString.hasSuffix("/") ? String(baseURLString.dropLast()) : baseURLString
+            let cleanPath = trackUrl.hasPrefix("/") ? trackUrl : "/\(trackUrl)"
+            fullURLString = cleanBase + cleanPath
+        }
+
+        // Always add token as query parameter for authentication
+        guard let encodedToken = token.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
+            throw AudioPlayerError.invalidURL
+        }
+        let separator = fullURLString.contains("?") ? "&" : "?"
+        let finalURLString = fullURLString + separator + "token=" + encodedToken
+
+        guard let audioURL = URL(string: finalURLString) else {
+            throw AudioPlayerError.invalidURL
+        }
+
+        print("[AudioPlayer] Session ID: \(session.id)")
+        print("[AudioPlayer] Mime type: \(session.audioTracks?.first?.mimeType ?? "unknown")")
+
+        print("[AudioPlayer] ====== PLAYBACK DEBUG ======")
+        print("[AudioPlayer] Audio URL: \(audioURL.absoluteString)")
+        print("[AudioPlayer] Token (first 20 chars): \(String(token.prefix(20)))...")
+        print("[AudioPlayer] Base URL: \(baseURLString)")
+        print("[AudioPlayer] Track URL from session: \(trackUrl)")
+
+        // Configure audio session
+        do {
+            try audioSession.activate()
+            print("[AudioPlayer] Audio session activated successfully")
+        } catch {
+            print("[AudioPlayer] ERROR - Failed to activate audio session: \(error.localizedDescription)")
+            throw AudioPlayerError.loadFailed
+        }
+
+        // Create player item - token is in URL query param for HLS compatibility
         let asset = AVURLAsset(url: audioURL)
         playerItem = AVPlayerItem(asset: asset)
+        
+        // Check for immediate errors in asset loading
+        if let error = asset.error {
+            print("[AudioPlayer] ERROR - Asset has error: \(error.localizedDescription)")
+            throw error
+        }
+
+        // Add error observers for more detailed error info
+        NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemFailedToPlayToEndTime,
+            object: playerItem,
+            queue: .main
+        ) { [weak self] notification in
+            if let error = notification.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error {
+                print("[AudioPlayer] ERROR - Failed to play to end: \(error.localizedDescription)")
+                Task { @MainActor in
+                    self?.state = .error(error.localizedDescription)
+                }
+            }
+        }
+        
+        // Also observe error log entries (check periodically)
+        Task { @MainActor in
+            // Check error log after a short delay
+            try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
+            if let errorLog = playerItem?.errorLog(), errorLog.events.count > 0 {
+                if let lastError = errorLog.events.last {
+                    let errorMessage = "\(lastError.errorDomain): \(lastError.errorComment ?? "Unknown error")"
+                    print("[AudioPlayer] ERROR - Error log entry: \(errorMessage)")
+                    if case .error = self.state {
+                        // Already in error state, don't overwrite
+                    } else {
+                        self.state = .error(errorMessage)
+                    }
+                }
+            }
+        }
 
         // Create player
         player = AVPlayer(playerItem: playerItem)
@@ -145,22 +236,62 @@ final class AudioPlayer {
         // Set up observers
         setupObservers()
 
-        // Wait for item to be ready
+        // Wait for item to be ready (with timeout)
         try await waitForPlayerReady()
 
-        // Get duration
-        if let duration = playerItem?.duration, duration.isNumeric {
-            self.duration = duration.seconds
+        // Check for immediate errors
+        if let error = playerItem?.error {
+            print("[AudioPlayer] ERROR - Player item has error: \(error.localizedDescription)")
+            throw error
         }
 
-        // Seek to start position
-        if startPosition > 0 {
-            await seek(to: startPosition)
+        // Get duration from session or item
+        self.duration = session.duration > 0 ? session.duration : (playerItem?.duration.seconds ?? 0)
+
+        // Seek to start position (use session's currentTime if no explicit position)
+        let seekPosition = startPosition > 0 ? startPosition : session.currentTime
+        if seekPosition > 0 {
+            await seek(to: seekPosition)
         }
 
         // Start playback
-        player?.rate = playbackRate
-        state = .playing
+        guard let player = player else {
+            throw AudioPlayerError.notLoaded
+        }
+        
+        player.playImmediately(atRate: playbackRate)
+        
+        // Wait a moment and verify playback actually started
+        try await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+        
+        // Check if playback actually started
+        if player.timeControlStatus == .waitingToPlayAtSpecifiedRate {
+            // Player is waiting - might need more time or there's an issue
+            print("[AudioPlayer] WARNING - Player is waiting to play")
+            // Give it a bit more time
+            try await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
+        }
+        
+        // Verify player is actually playing or paused (not failed)
+        if player.timeControlStatus == .paused {
+            // This is okay - we'll set state to paused and user can resume
+            state = .paused
+            print("[AudioPlayer] Player loaded but paused")
+        } else if player.timeControlStatus == .playing {
+            state = .playing
+            print("[AudioPlayer] Playback started successfully")
+        } else if let error = playerItem?.error {
+            print("[AudioPlayer] ERROR - Playback failed: \(error.localizedDescription)")
+            throw error
+        } else {
+            // Unknown state - try to start anyway
+            state = .playing
+            print("[AudioPlayer] WARNING - Unknown player state, assuming playing")
+        }
+
+        print("[AudioPlayer] Started playback at rate: \(playbackRate)")
+        print("[AudioPlayer] Player rate after start: \(player.rate)")
+        print("[AudioPlayer] Player timeControlStatus: \(player.timeControlStatus.rawValue)")
 
         // Update now playing info
         updateNowPlayingInfo()
@@ -184,10 +315,14 @@ final class AudioPlayer {
 
         do {
             try audioSession.activate()
-            player.rate = playbackRate
+            player.playImmediately(atRate: playbackRate)
             state = .playing
             updateNowPlayingInfo()
             crashRecovery?.resumeTracking(bookId: currentBook?.id ?? "")
+
+            print("[AudioPlayer] Resumed playback at rate: \(playbackRate)")
+            print("[AudioPlayer] Player rate after resume: \(player.rate)")
+            print("[AudioPlayer] Player timeControlStatus: \(player.timeControlStatus.rawValue)")
         } catch {
             state = .error(error.localizedDescription)
         }
@@ -230,6 +365,7 @@ final class AudioPlayer {
         currentTime = 0
         duration = 0
         currentChapter = nil
+        currentSessionId = nil
 
         crashRecovery?.stopTracking()
         nowPlayingManager.clear()
@@ -395,14 +531,24 @@ final class AudioPlayer {
         switch status {
         case .failed:
             if let error = playerItem?.error {
+                print("[AudioPlayer] ERROR - Playback failed: \(error.localizedDescription)")
+                // Try to get more details from the underlying error
+                if let nsError = error as NSError? {
+                    print("[AudioPlayer] ERROR - Domain: \(nsError.domain), Code: \(nsError.code)")
+                    if let underlyingError = nsError.userInfo[NSUnderlyingErrorKey] as? NSError {
+                        print("[AudioPlayer] ERROR - Underlying: \(underlyingError.localizedDescription)")
+                    }
+                }
                 state = .error(error.localizedDescription)
             } else {
+                print("[AudioPlayer] ERROR - Unknown playback error (no error object)")
                 state = .error("Unknown playback error")
             }
         case .readyToPlay:
-            // Status is now ready
+            print("[AudioPlayer] Status: Ready to play")
             break
         case .unknown:
+            print("[AudioPlayer] Status: Unknown")
             break
         @unknown default:
             break
@@ -425,14 +571,37 @@ final class AudioPlayer {
             throw AudioPlayerError.notLoaded
         }
 
-        // Wait for the item to be ready
+        // If already ready, return immediately
+        if item.status == .readyToPlay {
+            return
+        }
+        
+        // If already failed, throw immediately
+        if item.status == .failed {
+            throw item.error ?? AudioPlayerError.loadFailed
+        }
+
+        // Wait for the item to be ready with timeout
+        let timeout: TimeInterval = 30.0 // 30 second timeout
+        let startTime = Date()
+        
         for await status in item.publisher(for: \.status).values {
+            // Check timeout
+            if Date().timeIntervalSince(startTime) > timeout {
+                print("[AudioPlayer] ERROR - Timeout waiting for player to be ready")
+                throw AudioPlayerError.loadFailed
+            }
+            
             switch status {
             case .readyToPlay:
+                print("[AudioPlayer] Player item is ready to play")
                 return
             case .failed:
-                throw item.error ?? AudioPlayerError.loadFailed
+                let error = item.error ?? AudioPlayerError.loadFailed
+                print("[AudioPlayer] ERROR - Player item failed: \(error.localizedDescription)")
+                throw error
             case .unknown:
+                // Continue waiting
                 continue
             @unknown default:
                 continue
@@ -465,24 +634,41 @@ final class AudioPlayer {
         nowPlayingManager.update(
             title: book.title,
             author: book.authorName,
-            artwork: nil, // TODO: Load artwork
+            artwork: nil,
             duration: duration,
             currentTime: currentTime,
             playbackRate: state.isPlaying ? playbackRate : 0,
             chapterTitle: currentChapter?.title
         )
+
+        // Load artwork asynchronously
+        if let coverURL = book.coverURL {
+            Task {
+                await nowPlayingManager.loadArtwork(from: coverURL)
+            }
+        }
     }
 
     private func syncProgress() {
         guard let book = currentBook else { return }
 
         Task {
-            try? await APIClient.shared.updateProgress(
-                bookId: book.id,
-                currentTime: currentTime,
-                duration: duration,
-                isFinished: currentTime >= duration - 10
-            )
+            if let sessionId = currentSessionId {
+                // Use session-based sync (preferred)
+                try? await APIClient.shared.syncSession(
+                    sessionId: sessionId,
+                    currentTime: currentTime,
+                    duration: duration
+                )
+            } else {
+                // Fallback to direct progress update
+                try? await APIClient.shared.updateProgress(
+                    bookId: book.id,
+                    currentTime: currentTime,
+                    duration: duration,
+                    isFinished: currentTime >= duration - 10
+                )
+            }
         }
     }
 
@@ -560,6 +746,7 @@ final class AudioPlayer {
         }
     }
 
+    @MainActor
     private func fadeOutAndPause() async {
         guard let player = player else { return }
 
