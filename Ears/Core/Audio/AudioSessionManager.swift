@@ -63,9 +63,7 @@ final class AudioSessionManager {
                 options: [.allowAirPlay, .allowBluetooth, .allowBluetoothA2DP]
             )
 
-            // Allow background playback
-            try session.setActive(false)
-
+            // Session will be activated when playback starts via activate()
         } catch {
             print("Failed to configure audio session: \(error)")
         }
@@ -74,6 +72,8 @@ final class AudioSessionManager {
     /// Activate the audio session before playback.
     func activate() throws {
         try session.setActive(true, options: .notifyOthersOnDeactivation)
+        print("[AudioSession] Activated. Category: \(session.category.rawValue)")
+        print("[AudioSession] Output route: \(session.currentRoute.outputs.first?.portName ?? "none")")
     }
 
     /// Deactivate the audio session when stopping playback.

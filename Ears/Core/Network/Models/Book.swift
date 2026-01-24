@@ -288,14 +288,16 @@ struct EbookFile: Codable, Sendable {
 }
 
 /// User progress on a book
-struct MediaProgress: Codable, Sendable {
+struct MediaProgress: Codable, Identifiable, Sendable {
     let id: String?
     let libraryItemId: String?
     let episodeId: String?
-    let duration: TimeInterval
-    let progress: Double
-    let currentTime: TimeInterval
-    let isFinished: Bool
+    let mediaItemId: String?
+    let mediaItemType: String?
+    let duration: TimeInterval?
+    let progress: Double?
+    let currentTime: TimeInterval?
+    let isFinished: Bool?
     let hideFromContinueListening: Bool?
     let lastUpdate: Date?
     let startedAt: Date?

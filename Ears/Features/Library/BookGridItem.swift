@@ -140,7 +140,7 @@ struct ContinueListeningCard: View {
 
             // Progress bar
             ProgressView(value: book.progressPercent)
-                .tint(.accentColor)
+                .tint(Color.accentColor)
 
             // Time remaining
             Text(timeRemaining)
@@ -174,7 +174,7 @@ struct CircularProgressView: View {
 
             Circle()
                 .trim(from: 0, to: progress)
-                .stroke(.accentColor, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 3, lineCap: .round))
                 .rotationEffect(.degrees(-90))
 
             Text("\(Int(progress * 100))%")
@@ -321,6 +321,8 @@ extension Book {
                     id: "p1",
                     libraryItemId: "preview",
                     episodeId: nil,
+                    mediaItemId: nil,
+                    mediaItemType: nil,
                     duration: 18000,
                     progress: 0.35,
                     currentTime: 6300,

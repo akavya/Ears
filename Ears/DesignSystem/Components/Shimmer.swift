@@ -66,24 +66,24 @@ struct SkeletonView: View {
     }
 
     var body: some View {
-        skeletonShape
-            .fill(Color(.systemGray5))
-            .frame(width: width, height: height)
-            .shimmer()
-    }
-
-    @ViewBuilder
-    private var skeletonShape: some Shape {
-        switch shape {
-        case .rectangle:
-            Rectangle()
-        case .roundedRectangle(let cornerRadius):
-            RoundedRectangle(cornerRadius: cornerRadius)
-        case .circle:
-            Circle()
-        case .capsule:
-            Capsule()
+        Group {
+            switch shape {
+            case .rectangle:
+                Rectangle()
+                    .fill(Color(.systemGray5))
+            case .roundedRectangle(let cornerRadius):
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(Color(.systemGray5))
+            case .circle:
+                Circle()
+                    .fill(Color(.systemGray5))
+            case .capsule:
+                Capsule()
+                    .fill(Color(.systemGray5))
+            }
         }
+        .frame(width: width, height: height)
+        .shimmer()
     }
 }
 

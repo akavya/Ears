@@ -95,6 +95,14 @@ final class SleepTimer {
         state = .endOfChapter
     }
 
+    /// Mark that we should stop at end of current chapter
+    /// (chapter end time will be checked by the player)
+    func setEndOfChapter() {
+        endTime = nil
+        endOfChapterTime = nil
+        state = .endOfChapter
+    }
+
     /// Cancel the timer
     func cancel() {
         endTime = nil

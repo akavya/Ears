@@ -149,7 +149,7 @@ struct LoginView: View {
                 Text("Remember username")
                     .font(.subheadline)
             }
-            .tint(.accentColor)
+            .tint(Color.accentColor)
         }
     }
 

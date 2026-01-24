@@ -11,20 +11,45 @@ import Foundation
 struct User: Codable, Identifiable, Sendable {
     let id: String
     let username: String
-    let type: String
+    let type: String?
     let token: String?
-    let isActive: Bool
-    let isLocked: Bool
+    let email: String?
+    let isActive: Bool?
+    let isLocked: Bool?
     let lastSeen: Date?
-    let createdAt: Date
+    let createdAt: Date?
     let permissions: UserPermissions?
     let librariesAccessible: [String]?
     let itemTagsSelected: [String]?
+    let mediaProgress: [MediaProgress]?
+    let bookmarks: [Bookmark]?
+    let seriesHideFromContinueListening: [String]?
+    let hasOpenIDLink: Bool?
+    let accessToken: String?
+    let refreshToken: String?
 
     /// Whether this is a root/admin user
     var isAdmin: Bool {
         type == "root" || type == "admin"
     }
+
+    /// Safe accessor for isActive with default
+    var isUserActive: Bool {
+        isActive ?? true
+    }
+
+    /// Safe accessor for isLocked with default
+    var isUserLocked: Bool {
+        isLocked ?? false
+    }
+}
+
+/// Bookmark for an audiobook
+struct Bookmark: Codable, Sendable {
+    let libraryItemId: String
+    let time: Double
+    let title: String
+    let createdAt: Date?
 }
 
 /// User permissions
@@ -36,6 +61,8 @@ struct UserPermissions: Codable, Sendable {
     let accessAllLibraries: Bool?
     let accessAllTags: Bool?
     let accessExplicitContent: Bool?
+    let createEreader: Bool?
+    let selectedTagsNotAccessible: Bool?
 }
 
 // MARK: - Login
@@ -82,7 +109,6 @@ struct ServerSettings: Codable, Sendable {
     let metadataFileFormat: String?
     let rateLimitLoginRequests: Int?
     let rateLimitLoginWindow: Int?
-    let backupSchedule: String?
     let backupsToKeep: Int?
     let maxBackupSize: Int?
     let loggerDailyLogsToKeep: Int?

@@ -39,11 +39,16 @@ actor APIClient {
         self.session = URLSession(configuration: config)
 
         self.decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .secondsSince1970
+        // Note: Audiobookshelf API uses camelCase, so no key conversion needed
+        // Audiobookshelf API returns timestamps in milliseconds
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let milliseconds = try container.decode(Double.self)
+            return Date(timeIntervalSince1970: milliseconds / 1000.0)
+        }
 
         self.encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
+        // Note: API expects camelCase, so no key conversion needed
     }
 
     // MARK: - Configuration
@@ -135,7 +140,18 @@ actor APIClient {
     func startPlaybackSession(bookId: String) async throws -> PlaybackSession {
         let body = StartSessionRequest(
             deviceInfo: DeviceInfo.current,
-            supportedMimeTypes: ["audio/mpeg", "audio/mp4", "audio/x-m4a", "audio/aac"]
+            // Include HLS for streaming (required for iOS) + common audio formats
+            supportedMimeTypes: [
+                "application/vnd.apple.mpegurl",  // HLS
+                "audio/mpeg",
+                "audio/mp4",
+                "audio/x-m4a",
+                "audio/aac",
+                "audio/flac",
+                "audio/ogg"
+            ],
+            forceDirectPlay: true,
+            forceTranscode: false  // Use direct playback instead of HLS to avoid SSL issues
         )
 
         var request = try makeRequest(path: "/api/items/\(bookId)/play", method: "POST")
@@ -247,6 +263,12 @@ actor APIClient {
             do {
                 return try decoder.decode(T.self, from: data)
             } catch {
+                // Debug: Print raw response to understand the mismatch
+                if let jsonString = String(data: data, encoding: .utf8) {
+                    print("⚠️ Failed to decode response. Raw JSON:")
+                    print(jsonString)
+                }
+                print("⚠️ Decoding error details: \(error)")
                 throw APIError.decodingFailed(error)
             }
 

@@ -200,17 +200,17 @@ struct DefaultSpeedPicker: View {
 
     var body: some View {
         List {
-            ForEach(speeds, id: \.self) { s in
+            ForEach(Array(speeds), id: \.self) { (s: Float) in
                 Button {
                     speed = s
                     dismiss()
                 } label: {
                     HStack {
-                        Text(String(format: "%.2fx", s))
+                        Text(String(format: "%.2fx", arguments: [s]))
                         Spacer()
                         if speed == s {
                             Image(systemName: "checkmark")
-                                .foregroundStyle(.accentColor)
+                                .foregroundStyle(Color.accentColor)
                         }
                     }
                 }
@@ -228,12 +228,12 @@ struct SkipIntervalPicker: View {
     @Binding var forwardInterval: Int
     @Binding var backwardInterval: Int
 
-    private let intervals = [5, 10, 15, 20, 30, 45, 60, 90]
+    private let intervals: [Int] = [5, 10, 15, 20, 30, 45, 60, 90]
 
     var body: some View {
         List {
             Section("Skip Forward") {
-                ForEach(intervals, id: \.self) { interval in
+                ForEach(Array(intervals), id: \.self) { (interval: Int) in
                     Button {
                         forwardInterval = interval
                     } label: {
@@ -242,7 +242,7 @@ struct SkipIntervalPicker: View {
                             Spacer()
                             if forwardInterval == interval {
                                 Image(systemName: "checkmark")
-                                    .foregroundStyle(.accentColor)
+                                    .foregroundStyle(Color.accentColor)
                             }
                         }
                     }
@@ -251,7 +251,7 @@ struct SkipIntervalPicker: View {
             }
 
             Section("Skip Backward") {
-                ForEach(intervals, id: \.self) { interval in
+                ForEach(Array(intervals), id: \.self) { (interval: Int) in
                     Button {
                         backwardInterval = interval
                     } label: {
@@ -260,7 +260,7 @@ struct SkipIntervalPicker: View {
                             Spacer()
                             if backwardInterval == interval {
                                 Image(systemName: "checkmark")
-                                    .foregroundStyle(.accentColor)
+                                    .foregroundStyle(Color.accentColor)
                             }
                         }
                     }

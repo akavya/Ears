@@ -67,7 +67,7 @@ struct SleepTimerView: View {
 
                     Text(sleepTimer.formattedRemaining)
                         .font(.title2.monospacedDigit().bold())
-                        .foregroundStyle(.accentColor)
+                        .foregroundStyle(Color.accentColor)
                 }
 
                 Spacer()
@@ -106,7 +106,7 @@ struct SleepTimerView: View {
                     Spacer()
                     if case .endOfChapter = sleepTimer.state {
                         Image(systemName: "checkmark")
-                            .foregroundStyle(.accentColor)
+                            .foregroundStyle(Color.accentColor)
                     }
                 }
             }
@@ -125,7 +125,7 @@ struct SleepTimerView: View {
                         if case .active(let remaining) = sleepTimer.state,
                            abs(remaining - preset.1) < 60 {
                             Image(systemName: "checkmark")
-                                .foregroundStyle(.accentColor)
+                                .foregroundStyle(Color.accentColor)
                         }
                     }
                 }

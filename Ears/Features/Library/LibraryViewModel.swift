@@ -24,6 +24,7 @@ final class LibraryViewModel {
         books.filter { book in
             let progress = book.progressPercent
             return progress > 0 && progress < 0.95 && !book.isFinished
+                && !(book.progress?.hideFromContinueListening ?? false)
         }
         .sorted { ($0.progress?.lastUpdate ?? .distantPast) > ($1.progress?.lastUpdate ?? .distantPast) }
         .prefix(10)

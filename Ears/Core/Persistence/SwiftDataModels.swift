@@ -71,9 +71,9 @@ final class CachedBook {
         )
 
         if let progress = book.progress {
-            self.currentTime = progress.currentTime
-            self.progressPercent = progress.progress
-            self.isFinished = progress.isFinished
+            self.currentTime = progress.currentTime ?? 0
+            self.progressPercent = progress.progress ?? 0
+            self.isFinished = progress.isFinished ?? false
             self.lastListened = progress.lastUpdate
         }
     }
@@ -89,9 +89,9 @@ final class CachedBook {
         self.lastUpdated = Date()
 
         if let progress = book.progress {
-            self.currentTime = progress.currentTime
-            self.progressPercent = progress.progress
-            self.isFinished = progress.isFinished
+            self.currentTime = progress.currentTime ?? 0
+            self.progressPercent = progress.progress ?? 0
+            self.isFinished = progress.isFinished ?? false
             self.lastListened = progress.lastUpdate
         }
     }

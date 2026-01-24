@@ -5,6 +5,7 @@
 //  Full-screen immersive player view
 //
 
+import AVKit
 import SwiftUI
 
 /// Full-screen now playing view with all playback controls.
@@ -363,8 +364,6 @@ struct AirPlayButton: UIViewRepresentable {
 
     func updateUIView(_ uiView: UIView, context: Context) {}
 }
-
-import AVKit
 
 // MARK: - Preview
 

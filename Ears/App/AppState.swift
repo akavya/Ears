@@ -109,7 +109,7 @@ final class AppState {
         defer { isLoading = false }
 
         // Configure API client with server URL
-        APIClient.shared.configure(baseURL: serverURL)
+        await APIClient.shared.configure(baseURL: serverURL)
 
         // Perform login
         let response = try await APIClient.shared.login(username: username, password: password)
@@ -128,7 +128,7 @@ final class AppState {
     /// Log out and clear all state
     func logout() async {
         // Stop any playback
-        audioPlayer.stop()
+        await audioPlayer.stop()
 
         // Clear Keychain
         KeychainManager.shared.clearToken()
@@ -144,7 +144,9 @@ final class AppState {
     func setServerURL(_ url: URL) {
         self.serverURL = url
         UserDefaults.standard.set(url.absoluteString, forKey: "serverURL")
-        APIClient.shared.configure(baseURL: url)
+        Task {
+            await APIClient.shared.configure(baseURL: url)
+        }
     }
 }
 

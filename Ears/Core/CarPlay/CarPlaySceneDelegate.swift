@@ -21,6 +21,17 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
     var interfaceController: CPInterfaceController?
     var carplayScene: CPTemplateApplicationScene?
 
+    /// Access to shared audio player via the main app state
+    /// This is set when the main app launches
+    static weak var sharedAudioPlayer: AudioPlayer?
+
+    private var audioPlayer: AudioPlayer? {
+        CarPlaySceneDelegate.sharedAudioPlayer
+    }
+
+    /// Speed presets for cycling
+    private let speedPresets: [Float] = [1.0, 1.25, 1.5, 1.75, 2.0]
+
     // MARK: - Scene Lifecycle
 
     func templateApplicationScene(
@@ -144,11 +155,19 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
     // MARK: - Actions
 
     private func cyclePlaybackSpeed() {
-        // Cycle through playback speeds: 1.0 -> 1.25 -> 1.5 -> 2.0 -> 1.0
-        let speeds: [Float] = [1.0, 1.25, 1.5, 1.75, 2.0]
+        guard let player = audioPlayer else { return }
 
-        // Get current speed and find next
-        // This would interact with the AudioPlayer
+        let currentSpeed = player.playbackRate
+
+        // Find current speed index and get next
+        if let currentIndex = speedPresets.firstIndex(of: currentSpeed) {
+            let nextIndex = (currentIndex + 1) % speedPresets.count
+            player.playbackRate = speedPresets[nextIndex]
+        } else {
+            // Current speed not in presets, find nearest higher or wrap to 1.0
+            let nextSpeed = speedPresets.first { $0 > currentSpeed } ?? speedPresets[0]
+            player.playbackRate = nextSpeed
+        }
     }
 
     private func showSleepTimerOptions() {
@@ -175,22 +194,53 @@ class CarPlaySceneDelegate: UIResponder, CPTemplateApplicationSceneDelegate {
     }
 
     private func setSleepTimer(minutes: Int) {
-        // Set sleep timer via AudioPlayer
+        guard let player = audioPlayer else {
+            interfaceController?.dismissTemplate(animated: true, completion: nil)
+            return
+        }
+
+        let duration = TimeInterval(minutes * 60)
+        player.sleepTimer.start(duration: duration)
         interfaceController?.dismissTemplate(animated: true, completion: nil)
     }
 
     private func setSleepTimerEndOfChapter() {
-        // Set end of chapter timer
+        guard let player = audioPlayer else {
+            interfaceController?.dismissTemplate(animated: true, completion: nil)
+            return
+        }
+
+        player.sleepTimer.setEndOfChapter()
         interfaceController?.dismissTemplate(animated: true, completion: nil)
     }
 
     // MARK: - Book Selection
 
     private func playBook(bookId: String) {
-        // Start playback of selected book
-        // Navigate to Now Playing template
-        if let nowPlayingTemplate = CPNowPlayingTemplate.shared as? CPTemplate {
-            interfaceController?.pushTemplate(nowPlayingTemplate, animated: true, completion: nil)
+        Task { @MainActor in
+            do {
+                // Fetch book details from API
+                let book = try await APIClient.shared.fetchBook(id: bookId)
+
+                // Start playback using the shared audio player
+                if let player = audioPlayer {
+                    try await player.play(book: book)
+                }
+
+                // Navigate to Now Playing template
+                interfaceController?.pushTemplate(CPNowPlayingTemplate.shared, animated: true, completion: nil)
+            } catch {
+                // Show error alert
+                let alert = CPAlertTemplate(
+                    titleVariants: ["Unable to Play"],
+                    actions: [
+                        CPAlertAction(title: "OK", style: .cancel) { [weak self] _ in
+                            self?.interfaceController?.dismissTemplate(animated: true, completion: nil)
+                        }
+                    ]
+                )
+                interfaceController?.presentTemplate(alert, animated: true, completion: nil)
+            }
         }
     }
 }

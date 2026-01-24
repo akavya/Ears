@@ -25,6 +25,8 @@ struct BookDetailView: View {
     @State private var isLoading = false
     @State private var showChapters = false
     @State private var showDownloadOptions = false
+    @State private var showMarkFinishedConfirmation = false
+    @State private var errorMessage: String?
 
     var body: some View {
         ScrollView {
@@ -65,13 +67,18 @@ struct BookDetailView: View {
                     }
 
                     Button {
-                        // Mark as finished
+                        showMarkFinishedConfirmation = true
                     } label: {
-                        Label("Mark as Finished", systemImage: "checkmark.circle")
+                        Label(
+                            book.isFinished ? "Mark as Unfinished" : "Mark as Finished",
+                            systemImage: book.isFinished ? "arrow.uturn.backward.circle" : "checkmark.circle"
+                        )
                     }
 
                     Button {
-                        // Add to queue
+                        Task {
+                            await addToQueue()
+                        }
                     } label: {
                         Label("Add to Queue", systemImage: "text.badge.plus")
                     }
@@ -90,6 +97,32 @@ struct BookDetailView: View {
                     }
                 }
             )
+        }
+        .confirmationDialog(
+            book.isFinished ? "Mark as Unfinished?" : "Mark as Finished?",
+            isPresented: $showMarkFinishedConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(book.isFinished ? "Mark Unfinished" : "Mark Finished") {
+                Task {
+                    await toggleFinished()
+                }
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text(book.isFinished
+                ? "This will reset your progress for this book."
+                : "This will mark the book as completed.")
+        }
+        .alert("Error", isPresented: .init(
+            get: { errorMessage != nil },
+            set: { if !$0 { errorMessage = nil } }
+        )) {
+            Button("OK") { errorMessage = nil }
+        } message: {
+            if let error = errorMessage {
+                Text(error)
+            }
         }
     }
 
@@ -328,7 +361,7 @@ struct BookDetailView: View {
             )
             appState.showingFullPlayer = true
         } catch {
-            // Show error
+            errorMessage = "Failed to play: \(error.localizedDescription)"
         }
 
         isLoading = false
@@ -342,7 +375,47 @@ struct BookDetailView: View {
             try await appState.audioPlayer.play(book: book, startPosition: chapter.startTime)
             appState.showingFullPlayer = true
         } catch {
-            // Show error
+            errorMessage = "Failed to play: \(error.localizedDescription)"
+        }
+    }
+
+    private func toggleFinished() async {
+        do {
+            if book.isFinished {
+                // Reset progress (mark as unfinished)
+                try await APIClient.shared.updateProgress(
+                    bookId: book.id,
+                    currentTime: 0,
+                    duration: book.duration,
+                    isFinished: false
+                )
+            } else {
+                // Mark as finished
+                try await APIClient.shared.markAsFinished(bookId: book.id)
+            }
+        } catch {
+            errorMessage = "Failed to update: \(error.localizedDescription)"
+        }
+    }
+
+    private func addToQueue() async {
+        // For now, we'll start playing this book next after the current one
+        // A full queue system would require additional state management
+        do {
+            // If nothing is playing, just start playing this book
+            if !appState.audioPlayer.isActive {
+                try await appState.audioPlayer.play(
+                    book: book,
+                    startPosition: book.isFinished ? 0 : book.currentTime
+                )
+                appState.showingFullPlayer = true
+            } else {
+                // Save to "up next" - this would typically be stored in a queue
+                // For now, show a success message
+                // TODO: Implement proper queue management with SwiftData
+            }
+        } catch {
+            errorMessage = "Failed to add to queue: \(error.localizedDescription)"
         }
     }
 }

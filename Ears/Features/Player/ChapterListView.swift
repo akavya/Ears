@@ -97,7 +97,7 @@ struct ChapterRow: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(chapter.title)
                         .font(.subheadline.weight(isCurrent ? .semibold : .regular))
-                        .foregroundStyle(isCurrent ? .accentColor : .primary)
+                        .foregroundStyle(isCurrent ? Color.accentColor : Color.primary)
                         .lineLimit(2)
 
                     Text(formatDuration(chapter.duration))
@@ -111,7 +111,7 @@ struct ChapterRow: View {
                 if isCurrent {
                     Image(systemName: "waveform")
                         .font(.caption)
-                        .foregroundStyle(.accentColor)
+                        .foregroundStyle(Color.accentColor)
                         .symbolEffect(.variableColor.iterative)
                 }
             }

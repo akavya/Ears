@@ -46,7 +46,17 @@ struct EarsApp: App {
         } catch {
             // If container creation fails, try without group container
             // This allows the app to at least launch for debugging
-            fatalError("Could not create ModelContainer: \(error)")
+            let fallbackConfiguration = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false,
+                allowsSave: true
+            )
+
+            do {
+                return try ModelContainer(for: schema, configurations: [fallbackConfiguration])
+            } catch {
+                fatalError("Could not create ModelContainer: \(error)")
+            }
         }
     }()
 
@@ -68,6 +78,12 @@ struct EarsApp: App {
 
     /// Initialize the app on first launch
     private func initializeApp() async {
+        // Share audio player with CarPlay scene delegate
+        CarPlaySceneDelegate.sharedAudioPlayer = appState.audioPlayer
+
+        // Link crash recovery to audio player
+        appState.audioPlayer.crashRecovery = crashRecovery
+
         // Check for crash recovery - restore playback if interrupted
         if let recoveryState = await crashRecovery.checkForInterruptedSession() {
             appState.pendingRecovery = recoveryState

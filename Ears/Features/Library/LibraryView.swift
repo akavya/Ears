@@ -36,7 +36,7 @@ struct LibraryView: View {
             case .title: return "media.metadata.title"
             case .author: return "media.metadata.authorName"
             case .recentlyAdded: return "addedAt"
-            case .recentlyPlayed: return "progress.lastUpdate"
+            case .recentlyPlayed: return "media.userMediaProgress.lastUpdate"
             }
         }
     }
@@ -115,6 +115,9 @@ struct LibraryView: View {
                 Task {
                     await loadLibrary()
                 }
+            }
+            .navigationDestination(for: Book.self) { book in
+                BookDetailView(book: book)
             }
         }
     }
@@ -236,9 +239,6 @@ struct LibraryView: View {
             }
         }
         .padding(.vertical)
-        .navigationDestination(for: Book.self) { book in
-            BookDetailView(book: book)
-        }
     }
 
     // MARK: - Book List
@@ -261,9 +261,6 @@ struct LibraryView: View {
             }
         }
         .padding(.vertical)
-        .navigationDestination(for: Book.self) { book in
-            BookDetailView(book: book)
-        }
     }
 
     // MARK: - Actions
@@ -301,7 +298,7 @@ struct AlphabetScrubber: View {
                 ForEach(letters, id: \.self) { letter in
                     Text(letter)
                         .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(selectedLetter == letter ? .accentColor : .secondary)
+                        .foregroundStyle(selectedLetter == letter ? Color.accentColor : Color.secondary)
                         .frame(width: 16, height: 16)
                 }
             }
