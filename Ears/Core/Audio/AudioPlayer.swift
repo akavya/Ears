@@ -91,6 +91,9 @@ final class AudioPlayer {
     /// Current playback session ID
     private var currentSessionId: String?
 
+    /// HLS authentication resource loader
+    private var resourceLoader: HLSAuthResourceLoader?
+
     // MARK: - Initialization
 
     init() {
@@ -159,25 +162,17 @@ final class AudioPlayer {
             fullURLString = cleanBase + cleanPath
         }
 
-        // Always add token as query parameter for authentication
-        guard let encodedToken = token.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
+        guard let audioURL = URL(string: fullURLString) else {
             throw AudioPlayerError.invalidURL
         }
-        let separator = fullURLString.contains("?") ? "&" : "?"
-        let finalURLString = fullURLString + separator + "token=" + encodedToken
-
-        guard let audioURL = URL(string: finalURLString) else {
-            throw AudioPlayerError.invalidURL
-        }
-
-        print("[AudioPlayer] Session ID: \(session.id)")
-        print("[AudioPlayer] Mime type: \(session.audioTracks?.first?.mimeType ?? "unknown")")
 
         print("[AudioPlayer] ====== PLAYBACK DEBUG ======")
         print("[AudioPlayer] Audio URL: \(audioURL.absoluteString)")
+        print("[AudioPlayer] Using Bearer token authentication")
         print("[AudioPlayer] Token (first 20 chars): \(String(token.prefix(20)))...")
         print("[AudioPlayer] Base URL: \(baseURLString)")
         print("[AudioPlayer] Track URL from session: \(trackUrl)")
+        print("[AudioPlayer] Mime type: \(session.audioTracks?.first?.mimeType ?? "unknown")")
 
         // Configure audio session
         do {
@@ -188,8 +183,24 @@ final class AudioPlayer {
             throw AudioPlayerError.loadFailed
         }
 
-        // Create player item - token is in URL query param for HLS compatibility
-        let asset = AVURLAsset(url: audioURL)
+        // Create resource loader for HLS authentication
+        guard let serverURL = URL(string: baseURLString) else {
+            throw AudioPlayerError.invalidURL
+        }
+        resourceLoader = HLSAuthResourceLoader(authToken: token, baseURL: serverURL)
+
+        // Create asset with custom scheme for HLS authentication
+        // If this is an HLS stream, we need to use the resource loader
+        let asset: AVURLAsset
+        if let customURL = resourceLoader?.customSchemeURL(from: audioURL) {
+            print("[AudioPlayer] Using custom scheme URL for HLS auth: \(customURL.absoluteString)")
+            asset = AVURLAsset(url: customURL)
+            asset.resourceLoader.setDelegate(resourceLoader, queue: DispatchQueue(label: "com.ears.resourceloader"))
+        } else {
+            print("[AudioPlayer] Using direct URL (no HLS auth needed)")
+            asset = AVURLAsset(url: audioURL)
+        }
+
         playerItem = AVPlayerItem(asset: asset)
         
         // Check for immediate errors in asset loading
@@ -478,6 +489,10 @@ final class AudioPlayer {
         player?.pause()
         player = nil
         playerItem = nil
+
+        // Clean up resource loader
+        resourceLoader?.cancelAllRequests()
+        resourceLoader = nil
     }
 
     private func setupObservers() {

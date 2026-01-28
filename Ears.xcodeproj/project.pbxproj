@@ -45,6 +45,7 @@
 		E0000047238A0001 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000048238A0001 /* Theme.swift */; };
 		E0000049238A0001 /* Shimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000004A238A0001 /* Shimmer.swift */; };
 		E000004B238A0001 /* AccessibilityHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000004C238A0001 /* AccessibilityHelpers.swift */; };
+		E0000073238A0001 /* HLSAuthResourceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0000074238A0001 /* HLSAuthResourceLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,6 +88,7 @@
 		E0000048238A0001 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		E000004A238A0001 /* Shimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmer.swift; sourceTree = "<group>"; };
 		E000004C238A0001 /* AccessibilityHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelpers.swift; sourceTree = "<group>"; };
+		E0000074238A0001 /* HLSAuthResourceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HLSAuthResourceLoader.swift; sourceTree = "<group>"; };
 		E0000051238A0001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0000052238A0001 /* Ears.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Ears.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,6 +160,7 @@
 			children = (
 				E0000008238A0001 /* AudioPlayer.swift */,
 				E000000A238A0001 /* AudioSessionManager.swift */,
+				E0000074238A0001 /* HLSAuthResourceLoader.swift */,
 				E000000C238A0001 /* NowPlayingInfoManager.swift */,
 				E000000E238A0001 /* RemoteCommandManager.swift */,
 				E0000010238A0001 /* SleepTimer.swift */,
@@ -399,6 +402,7 @@
 				E0000047238A0001 /* Theme.swift in Sources */,
 				E0000049238A0001 /* Shimmer.swift in Sources */,
 				E000004B238A0001 /* AccessibilityHelpers.swift in Sources */,
+				E0000073238A0001 /* HLSAuthResourceLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
